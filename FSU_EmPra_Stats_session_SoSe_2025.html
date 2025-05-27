@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive R Stats Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar-link.active { background-color: #0369a1; color: white; }
+        .sidebar-link:hover { background-color: #0ea5e9; color: white; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .code-block { background-color: #1f2937; color: #d1d5db; padding: 1rem; border-radius: 0.5rem; margin-top: 0.5rem; margin-bottom: 1rem; overflow-x: auto; position: relative; }
+        .code-block pre { margin: 0; }
+        .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background-color: #38bdf8; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.875rem; cursor: pointer; }
+        .copy-btn:hover { background-color: #0ea5e9; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        h2 { font-size: 1.75rem; font-weight: 600; margin-bottom: 1rem; color: #1e293b; border-bottom: 2px solid #e0f2fe; padding-bottom: 0.5rem;}
+        h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; color: #334155; }
+        p, ul { margin-bottom: 1rem; line-height: 1.6; color: #475569;}
+        ul { list-style-position: inside; padding-left: 1rem; }
+        li { margin-bottom: 0.5rem; }
+        strong { color: #1e293b; }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800 flex min-h-screen">
+
+    <aside class="w-64 bg-sky-700 text-white p-6 space-y-2 fixed top-0 left-0 h-full overflow-y-auto">
+        <h1 class="text-2xl font-semibold mb-6 border-b border-sky-500 pb-3">R Stats Guide</h1>
+        <nav>
+            <a href="#slide2" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Welcome & Overview</a>
+            <a href="#slide3" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Intro to R & RStudio</a>
+            <a href="#slide4" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Setting Up Environment</a>
+            <a href="#slide5" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Data Import & Exploration</a>
+            <a href="#slide6" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Descriptive Statistics</a>
+            <a href="#slide8" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Inferential Statistics</a>
+            <a href="#slide11" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Data Visualization Intro</a>
+            <a href="#slide12" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Visualization Examples</a>
+            <a href="#slide14" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Conclusion & Next Steps</a>
+            <a href="#slide15" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Further Learning & Q&A</a>
+        </nav>
+    </aside>
+
+    <main class="flex-1 ml-64 p-8 overflow-y-auto">
+        <div id="slide2" class="content-section">
+            <h2>Welcome & Session Overview</h2>
+            <p>This section introduces the purpose of the R session: to guide you through turning raw data into meaningful insights using R, as part of your research practicum.</p>
+            <h3>Welcome!</h3>
+            <ul>
+                <li>You've proposed your studies and acquired data.</li>
+                <li>Today: Turn raw data into meaningful insights using R.</li>
+                <li><strong>Goal:</strong> Understand the basics of data analysis within the research cycle.</li>
+            </ul>
+            <h3>Where does this fit in the Research Cycle?</h3>
+            <ul>
+                <li><strong>Proposal</strong> &rarr; <strong>Data Acquisition</strong> &rarr; <strong>Data Analysis</strong> &rarr; <strong>Interpretation & Dissemination</strong></li>
+                <li>This session is about the "Data Analysis" phase.</li>
+            </ul>
+            <h3>Session Objectives</h3>
+            <p>By the end of this session, you should be able to:</p>
+            <ul>
+                <li>Import and explore your data in R.</li>
+                <li>Generate descriptive statistics.</li>
+                <li>Perform a basic inferential statistical test.</li>
+                <li>Visualize your findings.</li>
+                <li>Connect statistical results back to your hypotheses.</li>
+            </ul>
+        </div>
+
+        <div id="slide3" class="content-section">
+            <h2>Introduction to R & RStudio</h2>
+            <p>Learn about R as a powerful language for statistical computing and RStudio as an Integrated Development Environment (IDE) that makes working with R more organized.</p>
+            <h3>What is R?</h3>
+            <ul>
+                <li>A powerful, open-source programming language for statistical computing and graphics.</li>
+                <li>Widely used in academia and industry.</li>
+            </ul>
+            <h3>What is RStudio?</h3>
+            <ul>
+                <li>An Integrated Development Environment (IDE) for R.</li>
+                <li>Makes working with R much easier and more organized.</li>
+            </ul>
+            <h3>RStudio Layout</h3>
+            <ul>
+                <li><strong>Source Editor (Top-Left):</strong> Where you write and save your R code.</li>
+                <li><strong>Console (Bottom-Left):</strong> Where R commands are executed.</li>
+                <li><strong>Environment/History (Top-Right):</strong> Shows variables/data you've created.</li>
+                <li><strong>Files/Plots/Packages/Help (Bottom-Right):</strong> For navigation, viewing plots, managing packages.</li>
+            </ul>
+        </div>
+
+        <div id="slide4" class="content-section">
+            <h2>Setting Up Your Environment</h2>
+            <p>This section covers the initial setup steps in R, including managing your working directory and handling packages, which are essential for an organized workflow.</p>
+            <h3>1. Working Directory</h3>
+            <ul>
+                <li>The folder where R looks for your data and saves output.</li>
+                <li><strong>Best Practice:</strong> Keep your data file and R script in the same folder.</li>
+                <li><strong>How to check:</strong></li>
+            </ul>
+            <div class="code-block"><pre><code>getwd()</code></pre><button class="copy-btn">Copy</button></div>
+            <ul>
+                <li><strong>How to set:</strong> (Replace "path/to/your/folder") or use RStudio Menu: `Session -> Set Working Directory -> Choose Directory...`</li>
+            </ul>
+            <div class="code-block"><pre><code>setwd("path/to/your/folder")</code></pre><button class="copy-btn">Copy</button></div>
+            <h3>2. Installing & Loading Packages</h3>
+            <ul>
+                <li><strong>Packages:</strong> Collections of R functions and data.</li>
+                <li><strong>Install (once):</strong></li>
+            </ul>
+            <div class="code-block"><pre><code>install.packages("package_name")
+# Example:
+install.packages("tidyverse")
+install.packages("psych")</code></pre><button class="copy-btn">Copy</button></div>
+            <ul>
+                <li><strong>Load (every session):</strong></li>
+            </ul>
+            <div class="code-block"><pre><code>library(package_name)
+# Example:
+library(tidyverse) # For data manipulation & plotting
+library(psych)     # For descriptive stats</code></pre><button class="copy-btn">Copy</button></div>
+        </div>
+
+        <div id="slide5" class="content-section">
+            <h2>Data Import & Initial Exploration</h2>
+            <p>Learn how to import your data (typically from CSV files) into R and perform initial exploratory steps to understand its structure and content.</p>
+            <h3>Getting Your Data into R</h3>
+            <ul>
+                <li>Most common format: <strong>CSV (Comma Separated Values)</strong></li>
+                <li>Make sure your CSV file is in your working directory!</li>
+            </ul>
+            <h3>Importing a CSV File</h3>
+            <div class="code-block"><pre><code># Using base R:
+# my_data <- read.csv("your_data_file.csv")
+
+# Using 'readr' (part of tidyverse) - often more robust:
+# my_data <- read_csv("your_data_file.csv")</code></pre><button class="copy-btn">Copy</button></div>
+            <p><strong>Action:</strong> Load your own data now! (Replace "your_data_file.csv" with your file name)</p>
+            <h3>Initial Data Exploration: Getting a Feel for Your Data</h3>
+            <ul>
+                <li><strong>View first few rows:</strong></li>
+            </ul>
+            <div class="code-block"><pre><code>head(my_data)</code></pre><button class="copy-btn">Copy</button></div>
+            <ul>
+                <li><strong>View entire dataset:</strong> (Note capital 'V')</li>
+            </ul>
+            <div class="code-block"><pre><code>View(my_data)</code></pre><button class="copy-btn">Copy</button></div>
+            <ul>
+                <li><strong>Check structure (data types, observations):</strong></li>
+            </ul>
+            <div class="code-block"><pre><code>str(my_data)</code></pre><button class="copy-btn">Copy</button></div>
+            <ul>
+                <li><strong>Check dimensions (rows, columns):</strong></li>
+            </ul>
+            <div class="code-block"><pre><code>dim(my_data)</code></pre><button class="copy-btn">Copy</button></div>
+            <ul>
+                <li><strong>Get column names:</strong></li>
+            </ul>
+            <div class="code-block"><pre><code>names(my_data)</code></pre><button class="copy-btn">Copy</button></div>
+        </div>
+
+        <div id="slide6" class="content-section">
+            <h2>Descriptive Statistics</h2>
+            <p>This section explains how to generate descriptive statistics to summarize and describe the main features of your dataset, which is crucial before formal testing.</p>
+            <h3>What are Descriptive Statistics?</h3>
+            <ul>
+                <li>Summarize and describe the main features of a dataset.</li>
+                <li>Help you understand your data before formal testing.</li>
+            </ul>
+            <h3>Basic Summary for All Variables</h3>
+            <div class="code-block"><pre><code>summary(my_data)</code></pre><button class="copy-btn">Copy</button></div>
+            <p>(Show example output for <code>summary()</code> during live demo)</p>
+            <h3>For Numeric Variables (e.g., Exam Scores, Study Hours)</h3>
+            <ul>
+                <li>Mean: <code>mean(my_data$variable_name)</code></li>
+                <li>Standard Deviation: <code>sd(my_data$variable_name)</code></li>
+                <li>Median: <code>median(my_data$variable_name)</code></li>
+                <li>Min/Max: <code>min(my_data$variable_name)</code>, <code>max(my_data$variable_name)</code></li>
+                <li><strong>Handling Missing Values (NA):</strong> Add <code>na.rm = TRUE</code> (e.g., <code>mean(my_data$variable_name, na.rm = TRUE)</code>)</li>
+            </ul>
+            <h3>For Categorical Variables (e.g., Group, Gender)</h3>
+            <ul>
+                <li>Count occurrences of each category:</li>
+            </ul>
+            <div class="code-block"><pre><code>table(my_data$categorical_variable)</code></pre><button class="copy-btn">Copy</button></div>
+            <h3>Grouped Descriptive Statistics (using <code>dplyr</code>)</h3>
+            <p>Compare statistics across different groups (e.g., Mean Exam Score by Group).</p>
+            <div class="code-block"><pre><code>my_data %>%
+  group_by(Group) %>%
+  summarise(
+    MeanExamScore = mean(ExamScore, na.rm = TRUE),
+    SDExamScore = sd(ExamScore, na.rm = TRUE),
+    Count = n()
+  )</code></pre><button class="copy-btn">Copy</button></div>
+            <p>(Show example output for grouped summary during live demo)</p>
+        </div>
+
+        <div id="slide8" class="content-section">
+            <h2>Inferential Statistics</h2>
+            <p>Inferential statistics allow you to make inferences about a larger population based on your sample data, helping you test your research hypotheses.</p>
+            <h3>What are Inferential Statistics?</h3>
+            <ul>
+                <li>Allow us to make inferences or draw conclusions about a larger population based on a sample.</li>
+                <li>Help test your research hypotheses.</li>
+            </ul>
+            <h3>Choosing the Right Test</h3>
+            <ul>
+                <li>Your research question dictates the test!</li>
+                <li>We'll demonstrate two common ones:
+                    <ol class="list-decimal ml-4">
+                        <li><strong>Independent Samples t-test:</strong> Comparing means of two groups.</li>
+                        <li><strong>Pearson Correlation:</strong> Examining the linear relationship between two continuous variables.</li>
+                    </ol>
+                </li>
+            </ul>
+            <h3>Independent Samples t-test</h3>
+            <p><strong>When to Use?</strong> To compare the means of a continuous variable between <strong>two independent groups</strong>.</p>
+            <p><strong>Example Research Question:</strong> "Does the intervention affect student exam scores?"</p>
+            <p><strong>Hypothesis:</strong> Students in the Intervention group will have significantly higher exam scores than the Control group.</p>
+            <p><strong>How to Run in R:</strong></p>
+            <div class="code-block"><pre><code>t_test_result <- t.test(ExamScore ~ Group, data = my_data)
+t_test_result</code></pre><button class="copy-btn">Copy</button></div>
+            <p><strong>Interpreting the Output:</strong></p>
+            <ul>
+                <li><strong><code>t</code> value:</strong> The calculated t-statistic.</li>
+                <li><strong><code>df</code> (degrees of freedom):</strong> Related to sample size.</li>
+                <li><strong><code>p-value</code>: CRUCIAL!</strong>
+                    <ul>
+                        <li>If <code>p < 0.05</code> (common threshold): Statistically significant difference.</li>
+                        <li>If <code>p >= 0.05</code>: No statistically significant difference detected.</li>
+                    </ul>
+                </li>
+                <li><strong>Confidence Interval:</strong> Range where the true difference in means likely falls.</li>
+                <li><strong>Sample Estimates:</strong> The means for each group.</li>
+            </ul>
+            <h3>Pearson Correlation</h3>
+            <p><strong>When to Use?</strong> To examine the <strong>linear relationship</strong> between <strong>two continuous variables</strong>.</p>
+            <p><strong>Example Research Question:</strong> "Is there a relationship between study hours and exam scores?"</p>
+            <p><strong>Hypothesis:</strong> More study hours will be positively correlated with higher exam scores.</p>
+            <p><strong>How to Run in R:</strong></p>
+            <div class="code-block"><pre><code>correlation_result <- cor.test(my_data$StudyHours, my_data$ExamScore, method = "pearson")
+correlation_result</code></pre><button class="copy-btn">Copy</button></div>
+            <p><strong>Interpreting the Output:</strong></p>
+            <ul>
+                <li><strong><code>p-value</code>:</strong> Crucial for significance.
+                    <ul>
+                        <li>If <code>p < 0.05</code>: Statistically significant linear relationship.</li>
+                    </ul>
+                </li>
+                <li><strong><code>sample estimates: cor</code> (Pearson's r):</strong>
+                    <ul>
+                        <li>Ranges from -1 to +1.</li>
+                        <li><code>+1</code>: Perfect positive relationship.</li>
+                        <li><code>-1</code>: Perfect negative relationship.</li>
+                        <li><code>0</code>: No linear relationship.</li>
+                        <li>The closer to +1 or -1, the stronger the relationship.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div id="slide11" class="content-section">
+            <h2>Data Visualization Intro</h2>
+            <p>This section introduces the importance of data visualization and the basics of using the <code>ggplot2</code> package in R for creating informative and impactful plots.</p>
+            <h3>Why Visualize Your Data?</h3>
+            <ul>
+                <li>"A picture is worth a thousand words."</li>
+                <li>Helps you and others understand patterns, distributions, and relationships.</li>
+                <li>Makes your findings more accessible and impactful.</li>
+            </ul>
+            <h3><code>ggplot2</code> Basics</h3>
+            <ul>
+                <li>Part of the <code>tidyverse</code> package.</li>
+                <li>Builds plots layer by layer.</li>
+                <li><code>ggplot(data, aes(x = ..., y = ...))</code> defines the data and aesthetics.</li>
+                <li><code>+ geom_...()</code> adds geometric objects (points, bars, lines, boxes).</li>
+                <li><code>+ labs()</code> adds titles and labels.</li>
+            </ul>
+        </div>
+
+        <div id="slide12" class="content-section">
+            <h2>Visualization Examples</h2>
+            <p>Explore practical examples of data visualization using R's <code>ggplot2</code> package, including how to create box plots for group comparisons and scatter plots for relationships.</p>
+            <h3>1. Bar Chart for Comparing Group Means (Simulating Box Plot Concept)</h3>
+            <p>Shows mean Exam Scores for Control and Intervention groups with error bars for standard deviation. This helps compare central tendency and spread.</p>
+            <div class="chart-container my-6 h-80 md:h-96">
+                <canvas id="examScoreByGroupChart"></canvas>
+            </div>
+            <p><strong>R Code (for original Box Plot in ggplot2):</strong></p>
+            <div class="code-block"><pre><code>ggplot(my_data, aes(x = Group, y = ExamScore, fill = Group)) +
+  geom_boxplot() +
+  geom_point(position = position_jitter(width = 0.2), alpha = 0.6) +
+  labs(title = "Exam Scores by Group", x = "Group", y = "Exam Score")</code></pre><button class="copy-btn">Copy</button></div>
+
+            <h3>2. Scatter Plot: Relationship Between Two Numeric Variables</h3>
+            <p>Ideal for visualizing correlations (e.g., StudyHours vs. ExamScore).</p>
+            <div class="chart-container my-6 h-80 md:h-96">
+                <canvas id="studyHoursVsExamScoreChart"></canvas>
+            </div>
+            <p><strong>R Code (for Scatter Plot in ggplot2):</strong></p>
+            <div class="code-block"><pre><code>ggplot(my_data, aes(x = StudyHours, y = ExamScore)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") + # Add regression line
+  labs(title = "Study Hours vs. Exam Scores", x = "Study Hours", y = "Exam Score")</code></pre><button class="copy-btn">Copy</button></div>
+            
+            <h3>3. Histogram: Distribution of a Single Numeric Variable</h3>
+            <p>Shows the frequency distribution of Exam Scores.</p>
+             <div class="chart-container my-6 h-80 md:h-96">
+                <canvas id="examScoreHistogramChart"></canvas>
+            </div>
+            <p><strong>R Code (for Histogram in ggplot2):</strong></p>
+            <div class="code-block"><pre><code>ggplot(my_data, aes(x = ExamScore)) +
+  geom_histogram(binwidth = 5, fill = "lightgreen", color = "black") +
+  labs(title = "Distribution of Exam Scores", x = "Exam Score", y = "Frequency")</code></pre><button class="copy-btn">Copy</button></div>
+        </div>
+        
+        <div id="slide14" class="content-section">
+            <h2>Conclusion & Next Steps</h2>
+            <p>Reflect on how your analysis connects back to your research, the importance of reproducibility, and how to save your work effectively.</p>
+            <h3>Linking Back to Your Research Cycle</h3>
+            <ul>
+                <li>What do your descriptive stats tell you about your sample?</li>
+                <li>What do the inferential test results tell you about your hypotheses?
+                    <ul>
+                        <li>Did you find evidence to support your hypothesis?</li>
+                        <li>What if you didn't? (It's not a "failure," but an insight!)</li>
+                    </ul>
+                </li>
+                <li>How do your visualizations help communicate your findings to others?</li>
+                <li>This analysis forms the "Results" section of your research project.</li>
+            </ul>
+            <h3>Reproducibility & Saving Your Work</h3>
+            <ul>
+                <li><strong>Save your R script!</strong> (<code>File -> Save As...</code>)
+                    <ul>
+                        <li>This is your "recipe" for your analysis. Anyone can re-run it.</li>
+                    </ul>
+                </li>
+                <li><strong>Save your plots:</strong>
+                    <ul>
+                        <li>Use the 'Export' button in RStudio's Plots pane.</li>
+                        <li>Or use <code>ggsave("my_plot.png", plot = last_plot(), width = 7, height = 5, dpi = 300)</code></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div id="slide15" class="content-section">
+            <h2>Further Learning & Q&A</h2>
+            <p>Discover resources for continued learning in R and statistical analysis, and an opportunity to ask any pending questions.</p>
+            <h3>Resources for Continued Learning</h3>
+            <ul>
+                <li><strong>RStudio Cheat Sheets:</strong> Excellent visual summaries for <code>dplyr</code>, <code>ggplot2</code>, etc. (Google them!)</li>
+                <li><strong>Online Tutorials:</strong> RStudio Education, DataCamp (free courses), YouTube.</li>
+                <li><strong>Stack Overflow:</strong> For specific error messages or "how-to" questions.</li>
+                <li>Your course instructors!</li>
+            </ul>
+            <h3>Questions?</h3>
+            <h3>Thank You!</h3>
+        </div>
+    </main>
+
+    <script>
+        const studentData = [
+          { StudentID: 1, Group: "Control", StudyHours: 8, ExamScore: 65, PreTestScore: 50 },
+          { StudentID: 2, Group: "Control", StudyHours: 7, ExamScore: 60, PreTestScore: 45 },
+          { StudentID: 3, Group: "Control", StudyHours: 9, ExamScore: 70, PreTestScore: 55 },
+          { StudentID: 4, Group: "Control", StudyHours: 6, ExamScore: 55, PreTestScore: 48 },
+          { StudentID: 5, Group: "Control", StudyHours: 8, ExamScore: 68, PreTestScore: 52 },
+          { StudentID: 6, Group: "Control", StudyHours: 7, ExamScore: 62, PreTestScore: 47 },
+          { StudentID: 7, Group: "Control", StudyHours: 10, ExamScore: 75, PreTestScore: 58 },
+          { StudentID: 8, Group: "Control", StudyHours: 6, ExamScore: 58, PreTestScore: 46 },
+          { StudentID: 9, Group: "Control", StudyHours: 9, ExamScore: 72, PreTestScore: 53 },
+          { StudentID: 10, Group: "Control", StudyHours: 8, ExamScore: 66, PreTestScore: 51 },
+          { StudentID: 11, Group: "Intervention", StudyHours: 12, ExamScore: 85, PreTestScore: 52 },
+          { StudentID: 12, Group: "Intervention", StudyHours: 11, ExamScore: 80, PreTestScore: 48 },
+          { StudentID: 13, Group: "Intervention", StudyHours: 13, ExamScore: 90, PreTestScore: 57 },
+          { StudentID: 14, Group: "Intervention", StudyHours: 10, ExamScore: 78, PreTestScore: 50 },
+          { StudentID: 15, Group: "Intervention", StudyHours: 12, ExamScore: 88, PreTestScore: 54 },
+          { StudentID: 16, Group: "Intervention", StudyHours: 11, ExamScore: 82, PreTestScore: 49 },
+          { StudentID: 17, Group: "Intervention", StudyHours: 14, ExamScore: 95, PreTestScore: 60 },
+          { StudentID: 18, Group: "Intervention", StudyHours: 10, ExamScore: 75, PreTestScore: 47 },
+          { StudentID: 19, Group: "Intervention", StudyHours: 13, ExamScore: 92, PreTestScore: 55 },
+          { StudentID: 20, Group: "Intervention", StudyHours: 12, ExamScore: 86, PreTestScore: 53 }
+        ];
+
+        // Helper function to calculate mean
+        function calculateMean(arr) {
+            if (!arr || arr.length === 0) return 0;
+            const sum = arr.reduce((acc, val) => acc + val, 0);
+            return sum / arr.length;
+        }
+
+        // Helper function to calculate standard deviation
+        function calculateStdDev(arr, mean) {
+            if (!arr || arr.length === 0) return 0;
+            const meanVal = mean === undefined ? calculateMean(arr) : mean;
+            const variance = arr.reduce((acc, val) => acc + Math.pow(val - meanVal, 2), 0) / arr.length;
+            return Math.sqrt(variance);
+        }
+        
+        // Chart.js default options
+        Chart.defaults.font.family = 'Inter, sans-serif';
+        Chart.defaults.plugins.title.display = true;
+        Chart.defaults.plugins.title.font = { size: 16, weight: '600' };
+        Chart.defaults.plugins.title.color = '#334155';
+        Chart.defaults.maintainAspectRatio = false;
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const links = document.querySelectorAll('.sidebar-link');
+            const sections = document.querySelectorAll('.content-section');
+            const copyButtons = document.querySelectorAll('.copy-btn');
+
+            function updateContent(hash) {
+                links.forEach(link => link.classList.remove('active'));
+                sections.forEach(section => section.classList.remove('active'));
+
+                const activeLink = document.querySelector(`.sidebar-link[href="${hash}"]`);
+                const activeSection = document.querySelector(hash);
+
+                if (activeLink) activeLink.classList.add('active');
+                if (activeSection) {
+                    activeSection.classList.add('active');
+                    // Initialize charts only when their section becomes active
+                    if (hash === '#slide12') {
+                        initCharts();
+                    }
+                }
+            }
+            
+            links.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const hash = e.target.getAttribute('href');
+                    window.location.hash = hash;
+                });
+            });
+
+            window.addEventListener('hashchange', () => {
+                updateContent(window.location.hash || '#slide2');
+            });
+            
+            updateContent(window.location.hash || '#slide2');
+
+
+            copyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const codeBlock = button.previousElementSibling;
+                    const code = codeBlock.innerText;
+                    
+                    const textarea = document.createElement('textarea');
+                    textarea.value = code;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try {
+                        document.execCommand('copy');
+                        button.innerText = 'Copied!';
+                        setTimeout(() => { button.innerText = 'Copy'; }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy text: ', err);
+                        button.innerText = 'Error';
+                         setTimeout(() => { button.innerText = 'Copy'; }, 2000);
+                    }
+                    document.body.removeChild(textarea);
+                });
+            });
+
+            let chartsInitialized = false;
+            function initCharts() {
+                if (chartsInitialized) return;
+
+                // 1. Bar Chart for Exam Scores by Group (simulating Box Plot concept)
+                const controlScores = studentData.filter(d => d.Group === 'Control').map(d => d.ExamScore);
+                const interventionScores = studentData.filter(d => d.Group === 'Intervention').map(d => d.ExamScore);
+
+                const controlMean = calculateMean(controlScores);
+                const interventionMean = calculateMean(interventionScores);
+                const controlSD = calculateStdDev(controlScores, controlMean);
+                const interventionSD = calculateStdDev(interventionScores, interventionMean);
+
+                const examScoreByGroupCtx = document.getElementById('examScoreByGroupChart').getContext('2d');
+                new Chart(examScoreByGroupCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Control Group', 'Intervention Group'],
+                        datasets: [{
+                            label: 'Mean Exam Score',
+                            data: [controlMean, interventionMean],
+                            backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 99, 132, 0.6)'],
+                            borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: false, title: { display: true, text: 'Mean Exam Score' } }
+                        },
+                        plugins: {
+                            title: { text: 'Mean Exam Scores by Group' },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) { label += ': '; }
+                                        if (context.parsed.y !== null) {
+                                            label += context.parsed.y.toFixed(2);
+                                            const group = context.label;
+                                            const sd = group === 'Control Group' ? controlSD : interventionSD;
+                                            label += ` (SD: ${sd.toFixed(2)})`;
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // 2. Scatter Plot for Study Hours vs Exam Score
+                const scatterData = studentData.map(d => ({ x: d.StudyHours, y: d.ExamScore }));
+                const studyHoursVsExamScoreCtx = document.getElementById('studyHoursVsExamScoreChart').getContext('2d');
+                new Chart(studyHoursVsExamScoreCtx, {
+                    type: 'scatter',
+                    data: {
+                        datasets: [{
+                            label: 'Study Hours vs Exam Score',
+                            data: scatterData,
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: { title: { display: true, text: 'Study Hours' } },
+                            y: { title: { display: true, text: 'Exam Score' } }
+                        },
+                        plugins: {
+                            title: { text: 'Study Hours vs. Exam Score' }
+                        }
+                    }
+                });
+
+                // 3. Histogram for Exam Scores
+                const examScores = studentData.map(d => d.ExamScore);
+                const minScore = Math.min(...examScores);
+                const maxScore = Math.max(...examScores);
+                const binWidth = 10; // Or 5 as in R example
+                const bins = {};
+                for (let i = Math.floor(minScore / binWidth) * binWidth; i <= maxScore; i += binWidth) {
+                    bins[`${i}-${i + binWidth -1}`] = 0;
+                }
+                examScores.forEach(score => {
+                    const binStart = Math.floor(score / binWidth) * binWidth;
+                    const binLabel = `${binStart}-${binStart + binWidth - 1}`;
+                    if (bins[binLabel] !== undefined) {
+                        bins[binLabel]++;
+                    }
+                });
+                
+                const examScoreHistogramCtx = document.getElementById('examScoreHistogramChart').getContext('2d');
+                new Chart(examScoreHistogramCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(bins),
+                        datasets: [{
+                            label: 'Frequency of Exam Scores',
+                            data: Object.values(bins),
+                            backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: { title: { display: true, text: 'Exam Score Bins' } },
+                            y: { beginAtZero: true, title: { display: true, text: 'Frequency' } }
+                        },
+                        plugins: {
+                            title: { text: 'Distribution of Exam Scores (Histogram)' }
+                        }
+                    }
+                });
+                chartsInitialized = true;
+            }
+        });
+    </script>
+</body>
+</html>
