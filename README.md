@@ -1,4 +1,4 @@
-# Statistics Tutoring Resources
+# Statistics Tutoring Resources & Examples
 
 This repository contains general resources for tutoring statistics with R. 
 
