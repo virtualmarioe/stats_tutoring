@@ -1,4 +1,4 @@
-# Statistical Analysis in R for EmPra SoSe 2025 S1
+# Statistical Analysis in R for EmPra S1
 
 # --- Part 1: Setup and Introduction (15 minutes) ---
 # Welcome to the R session! Today, we'll learn how to transform your raw data

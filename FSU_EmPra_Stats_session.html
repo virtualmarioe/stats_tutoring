@@ -31,6 +31,7 @@
     <aside class="w-64 bg-sky-700 text-white p-6 space-y-2 fixed top-0 left-0 h-full overflow-y-auto">
         <h1 class="text-2xl font-semibold mb-6 border-b border-sky-500 pb-3">R Stats Guide</h1>
         <nav>
+            <a href="#slide1" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Title</a>
             <a href="#slide2" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Welcome & Overview</a>
             <a href="#slide3" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Intro to R & RStudio</a>
             <a href="#slide4" class="sidebar-link block py-2 px-3 rounded-md transition-colors duration-150">Setting Up Environment</a>
@@ -45,6 +46,18 @@
     </aside>
 
     <main class="flex-1 ml-64 p-8 overflow-y-auto">
+        <div id="slide1" class="content-section">
+            <div class="flex flex-col items-center justify-center min-h-[70vh] text-center">
+                <h2 class="text-4xl font-bold text-sky-800 border-none mb-2">Statistical Analysis in R</h2>
+                <p class="text-lg text-slate-400 mb-1">Empiriepraktikum (EmPra)</p>
+                <p class="text-xl text-slate-500 mb-12">Department of Biological Psychology and Cognitive Neuroscience (BPCN)</p>
+                <div class="mt-4 text-slate-600">
+                    <p class="text-lg font-semibold">Tutor: Mario Archila</p>
+                    <p class="text-base"><a href="mailto:mario.archila@uni-jena.de" class="text-sky-600 hover:underline">mario.archila@uni-jena.de</a></p>
+                </div>
+            </div>
+        </div>
+
         <div id="slide2" class="content-section">
             <h2>Welcome & Session Overview</h2>
             <p>This section introduces the purpose of the R session: to guide you through turning raw data into meaningful insights using R, as part of your research practicum.</p>
@@ -441,10 +454,10 @@ correlation_result</code></pre><button class="copy-btn">Copy</button></div>
             });
 
             window.addEventListener('hashchange', () => {
-                updateContent(window.location.hash || '#slide2');
+                updateContent(window.location.hash || '#slide1');
             });
-            
-            updateContent(window.location.hash || '#slide2');
+
+            updateContent(window.location.hash || '#slide1');
 
 
             copyButtons.forEach(button => {
